@@ -1,0 +1,54 @@
+@charset "utf-8";
+/* 重置 */
+*{
+    padding: 0;
+    margin:0;
+    font-family:"微软雅黑",Arial,YaHei,tahoma,"Hiragino Sans GB",宋体;
+}
+
+a{ text-decoration:none;color: inherit!important;}
+a:link{
+    text-decoration:none;   /* 指正常的未被访问过的链接*/
+}
+a:visited{
+    text-decoration:none; /*指已经访问过的链接*/
+}
+a:hover{
+    text-decoration:none;/*指鼠标在链接*/
+}
+a:active{
+    text-decoration:none;/* 指正在点的链接*/
+}
+/*清除number的默认样式,就是那个上下加减的箭头*/
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button{
+  -webkit-appearance: none !important;
+  margin: 0;
+}
+input[type="number"]{-moz-appearance:textfield;}
+/*禁止textarea拉伸*/
+textarea[type="textarea"]{resize:none;}
+ul,ol{
+    padding:0;
+    margin:0;
+}
+ul li,ol li{
+    list-style: none;
+}
+body,p,dl,dd,h1,h2,h3,h4,h5,h6{font-size:12px;margin:0;}
+h1,h2,h3,h4,h5,h6{ font-weight:normal;}
+img{border:none; vertical-align:middle;}
+.clearfix:after{ content:""; display:block; clear:both;}/*清除浮动*/
+.clearfix{*zoom:1;}
+
+/* 通用 */
+.container{
+    width: 1200px;
+    margin: 0 auto;
+}
+.pull-left{
+    float:left;
+}
+.pull-right{
+    float:right;
+}
