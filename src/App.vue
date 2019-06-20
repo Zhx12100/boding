@@ -1,12 +1,6 @@
 <template>
   <div id="app">
-    <topHeader></topHeader>
-    <!-- <div id="nav">
-      <router-link to="/">Home222</router-link> |
-      <router-link to="/about">About</router-link>
-      <el-input-number v-model="num" @change="handleChange" :min="1" :max="10" label="描述文字"></el-input-number>
-    </div>
-    <router-view /> -->
+    <topHeader v-if="hackReset" @ResetHead="reset"></topHeader>
   </div>
 </template>
 <script>
@@ -14,18 +8,24 @@ import topHeader from "@/components/topHeader.vue";
   export default {
     data() {
       return {
-        // num: 1
+        hackReset:true//控制导航组件强制刷新
       };
     },
     methods: {
-      // handleChange(value) {
-      //   console.log(value);
-      // }
+      reset(){//控制导航组件强制刷新
+        var that = this;
+        that.hackReset = false
+        that.$nextTick(() => {
+            that.hackReset= true
+        });
+      }
     },
     components: {
       topHeader
-    }
+    },
+    
   }
+  
 </script>
 <style lang="scss">
 body,html{
@@ -37,6 +37,10 @@ body,html{
   -moz-osx-font-smoothing: grayscale;
   min-height: 100%;
   position: relative;
+  padding-top: 90px;
+  overflow:hidden;
+  box-sizing: border-box;
+  background: #efeff4;
 }
 // #nav {
 //   padding: 30px;

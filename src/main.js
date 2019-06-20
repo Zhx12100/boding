@@ -6,6 +6,8 @@ import router from "./router";
 import store from "./store";
 import "./registerServiceWorker";
 import "./assets/css/whole.css";
+import animate from 'animate.css';
+Vue.use(animate);
 Vue.use(ElementUI);
 Vue.config.productionTip = false;
 
