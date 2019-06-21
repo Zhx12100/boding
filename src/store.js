@@ -4,7 +4,17 @@ import Vuex from "vuex";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: {},
-  mutations: {},
+  state: {
+    //是否登录状态
+    isLogin:false
+  },
+  mutations: {
+    changeLogin (state) {
+      // 变更状态
+      state.count++
+      state.isLogin=!state.isLogin;
+    }
+  },
   actions: {}
 });
+

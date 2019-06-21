@@ -27,7 +27,8 @@ import topHeader from "@/components/topHeader.vue";
   }
   
 </script>
-<style lang="scss">
+<style lang="scss" scope>
+
 body,html{
   height: 100%;
 }
@@ -38,6 +39,7 @@ body,html{
   min-height: 100%;
   position: relative;
   padding-top: 90px;
+  padding-bottom: 300px;
   overflow:hidden;
   box-sizing: border-box;
   background: #efeff4;

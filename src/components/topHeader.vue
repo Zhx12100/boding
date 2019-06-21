@@ -9,8 +9,8 @@
             <a href="javascript:;">13502947522</a>
           </p>
           <p class="pull-right">
-            <router-link to="home">登录</router-link>丨
-            <router-link to="home">注册</router-link>
+            <router-link to="/Login">登录</router-link>丨
+            <router-link to="/Register">注册</router-link>
           </p>
         </div>
       </div>
@@ -25,7 +25,7 @@
             mode="horizontal"
             background-color="#e2e1e1"
             text-color="#656565"
-            active-text-color="#e01923"
+            active-text-color="#409EFF"
             router
           >
             <el-menu-item index="/">
@@ -38,7 +38,7 @@
               手机版
             </el-menu-item>
             <el-submenu index="/">
-              <template slot="title">帮助中心</template>
+              <template slot="title"><span style="font-size:16px;">帮助中心</span></template>
               <el-menu-item index="/">新手教学</el-menu-item>
               <el-menu-item index="/">常见问题</el-menu-item>
             </el-submenu>
@@ -108,6 +108,10 @@ export default {
 .el_nav{
   border-bottom:none!important; 
   float: right;
+  font-weight: bold;
+}
+.el-loading-mask{
+  z-index: 9999;
 }
 #head_box {
   position: absolute;
@@ -130,6 +134,9 @@ export default {
     .logo{
       height: 60px;
     }
+    .el-menu-item{
+      font-size: 16px;
+    }    
   }
 }
 #footer_box{
