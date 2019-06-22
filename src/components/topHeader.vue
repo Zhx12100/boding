@@ -8,10 +8,11 @@
             服务热线 在线联系客服 丨
             <a href="javascript:;">13502947522</a>
           </p>
-          <p class="pull-right">
+          <p class="pull-right" hidden>
             <router-link to="/Login">登录</router-link>丨
             <router-link to="/Register">注册</router-link>
           </p>
+          <div class="name"><p>您好，zhanghegnxin <span class="el-icon-arrow-down"></span></p></div>
         </div>
       </div>
       <div class="head_2 clearfix">
@@ -110,6 +111,9 @@ export default {
   float: right;
   font-weight: bold;
 }
+.nav_top_name{
+  height: 30px;
+}
 .el-loading-mask{
   z-index: 9999;
 }
@@ -126,6 +130,21 @@ export default {
     background: black;
     margin: 0 auto;
     color: #cacaca;
+    .name{
+      font-size:15px;
+      line-height:30px;
+      height:30px;
+      font-weight:bold;
+      float:right;
+      transition:all .3s;
+      &:hover{
+        background:#CACACA;
+        color:#999;
+        span{
+          
+        }
+      }
+    }
   }
   .head_2{
     background: #e2e1e1;
@@ -136,7 +155,8 @@ export default {
     }
     .el-menu-item{
       font-size: 16px;
-    }    
+      height: 60px;
+    }  
   }
 }
 #footer_box{
