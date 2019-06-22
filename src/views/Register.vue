@@ -292,9 +292,9 @@ export default {
   }
 };
 </script>
-<style lang="scss" scope>
+<style lang="scss">
 // $theme-color:red;
-.el-button:focus, .el-button:hover{
+.codeBtn:focus, .codeBtn:hover{
   color:black!important;
   background:#CACACA;
 }
