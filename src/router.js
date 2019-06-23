@@ -5,6 +5,11 @@ import About from "./views/About.vue";
 import Register from "./views/Register.vue";
 import Login from "./views/Login.vue";
 import Forgot from "./views/Forgot.vue";
+import Mobile from "./views/Mobile.vue";
+import Contact from "./views/Contact.vue";
+import Teach from "./views/Teach.vue";
+import Problem from "./views/Problem.vue";
+import Strategy from "./views/Strategy.vue";
 
 Vue.use(Router);
 
@@ -36,6 +41,31 @@ export default new Router({
       path:"/Forgot",
       name:"Forgot",
       component:Forgot
+    },
+    {
+      path:"/Mobile",
+      name:"Mobile",
+      component:Mobile
+    },
+    {
+      path:"/Contact",
+      name:"Contact",
+      component:Contact
+    },
+    {
+      path:"/Teach",
+      name:"Teach",
+      component:Teach
+    },
+    {
+      path:"/Problem",
+      name:"Problem",
+      component:Problem
+    },
+    {
+      path:"/Strategy",
+      name:"Strategy",
+      component:Strategy
     },
   ]
 });

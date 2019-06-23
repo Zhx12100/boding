@@ -93,6 +93,7 @@ export default {
       that.$refs[formName].validate((valid) => {
         if (valid) {
           console.log(that.ruleLogin)
+          this.$store.commit('changeLogin');
           const loading = this.$loading({
             lock: true,
             text: '登录中... ',

@@ -276,7 +276,6 @@ export default {
             type: 'success',
             duration:3000
           });
-          this.$store.commit('changeLogin');
           setTimeout(function(){
             that.$router.push({ path: '/Login' })
           },3000)

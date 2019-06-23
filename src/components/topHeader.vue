@@ -8,13 +8,31 @@
             服务热线 在线联系客服 丨
             <a href="javascript:;">13502947522</a>
           </p>
-          <p class="pull-right" hidden>
-            <router-link to="/Login">登录</router-link>丨
-            <router-link to="/Register">注册</router-link>
-          </p>
-          <div class="name"><p>您好，zhanghegnxin <span class="el-icon-arrow-down"></span></p></div>
+          <transition name="fade"
+            mode="in-out"
+            enter-active-class="animated fadeInDown"
+            leave-active-class="fadeOutUp">
+          
+            <p class="pull-right" v-show="!isLogin">
+              <router-link to="/Login">登录</router-link>丨
+              <router-link to="/Register">注册</router-link>
+            </p>
+          </transition>
+          <transition name="fade"
+            mode="in-out"
+            enter-active-class="animated fadeInDown"
+            leave-active-class="fadeOutDown">
+            <div class="name" v-show="isLogin">
+              <p>您好，zhanghegnxin <span class="el-icon-arrow-down"></span></p>
+              <div class="name_list">
+                <div class="div1"> <p class="col-50">可用 <span class="money"> 123456</span></p> <router-link class="son_list col-50 txt-ac" to="/">充值</router-link> </div>
+                <div class="div2"> <router-link class="son_list geren col-50 txt-ac" to="/">个人中心</router-link> <p class="son_list anquan col-50 txt-ac" @click="quit">安全退出</p> </div>
+              </div>
+            </div>
+          </transition>
+          
+          </div>
         </div>
-      </div>
       <div class="head_2 clearfix">
         <div class="container">
           <router-link to="/" @click.native="resetHead">
@@ -32,16 +50,16 @@
             <el-menu-item index="/">
               首页
             </el-menu-item>
-            <el-menu-item index="/about">              
+            <el-menu-item index="/Strategy">              
               策略
             </el-menu-item>
-            <el-menu-item index="/">
+            <el-menu-item index="/Mobile">
               手机版
             </el-menu-item>
-            <el-submenu index="/">
+            <el-submenu index="/n">
               <template slot="title"><span style="font-size:16px;">帮助中心</span></template>
-              <el-menu-item index="/">新手教学</el-menu-item>
-              <el-menu-item index="/">常见问题</el-menu-item>
+              <el-menu-item index="/Teach">新手教学</el-menu-item>
+              <el-menu-item index="/Problem">常见问题</el-menu-item>
             </el-submenu>
           </el-menu>
         </div>
@@ -52,13 +70,13 @@
       enter-active-class="animated fadeInRight"
       leave-active-class="fadeOutLeft">
     >
-      <router-view class=""></router-view>
+      <router-view></router-view>
     </transition>
     <!-- 底部 -->
     <div id="footer_box">
       <div class="footer_1">
         <router-link to="/about" @click.native="resetHead">关于我们</router-link>&nbsp; 丨 &nbsp; 
-        <router-link to="/" @click.native="resetHead">联系我们</router-link>
+        <router-link to="/Contact" @click.native="resetHead">联系我们</router-link>
       </div>
       <div class="footer_2">
         <p class="p1">全国统一服务热线 ：联系在线客服</p>
@@ -82,6 +100,7 @@
   </div>
 </template>
 <script>
+import { mapState } from 'vuex'
 export default {
   props: {
     
@@ -95,6 +114,14 @@ export default {
     resetHead(){//强制刷新子组件
       console.log(this.$route.path)
       this.$emit('ResetHead')
+    },
+    quit(){//退出账号
+      this.$store.commit('changeLogin');
+      this.$message({
+        message: '退出成功',
+        type: 'warning',
+        duration:3000
+      });
     }
   },
   mounted(){//浏览器刷新页面时获取path从而设置导航栏的active (控制顶部导航栏刷新)
@@ -102,10 +129,19 @@ export default {
     // var that = this;
     // var path = that.$route.path;
     // path == '/about'||path=='/contact'?'':this.activeIndex = path;
-  }
+  },
+  computed:{
+    ...mapState({  //这里的...不是省略号了,是对象扩展符
+      isLogin:'isLogin'
+    })
+  },
 };
 </script>
 <style lang="scss" scoped>
+.col-50{
+  display: inline-block;
+  width: 50%;
+}
 .el_nav{
   border-bottom:none!important; 
   float: right;
@@ -118,10 +154,11 @@ export default {
   z-index: 9999;
 }
 #head_box {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
+  z-index: 999;
   box-shadow: 0px 2px 2px rgba(0, 0, 0, .3);
   .head_1 {
     width: 100%;
@@ -137,12 +174,68 @@ export default {
       font-weight:bold;
       float:right;
       transition:all .3s;
+      padding:0 5px;
+      position: relative;
+      span{
+        transition:all .3s;
+      }
       &:hover{
         background:#CACACA;
-        color:#999;
+        color:#333;
         span{
+          transform: rotate(180deg);
+        }
+        .name_list{
+          display: block;
+          opacity: 1;
+        }
+      }
+      .name_list{
+        width: 130%;
+        background: #e2e1e1;
+        border: 1px solid #CACACA;
+        border-radius: 3px;
+        padding:10px 20px;
+        position: absolute;
+        bottom: -95px;
+        right: 0;
+        z-index: 99999;
+        color: #666;
+        transition: all .3s;
+        overflow: hidden;
+        // height: 0px;
+        display: none;
+        opacity: 0;
+        .div1{
+          padding-bottom: 5px;
+          border-bottom: 1px solid #D0D0D0;
+          .money{
+            font-size: 18px;
+            font-weight: bold;
+            color: red;
+          }
+        }
+        .div2{
+          padding-top: 5px;
+          .geren{
+            border-right: 1px solid #D0D0D0;
+            box-sizing: border-box;
+            
+          }
+          .anquan{
+            cursor: pointer;
+            font-size: 15px;
+          }
           
         }
+        .son_list{
+          transition: all .3s;
+          &:hover{
+            color:#999;
+            background: #D0D0D0;
+          }
+        }
+        
       }
     }
   }

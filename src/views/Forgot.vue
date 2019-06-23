@@ -389,8 +389,8 @@ export default {
 		width: 1190px;
 		padding: 200px 0;
 		background-color: #ffffff;
-    border: 1px solid #dcdcdc;
-    border-radius: 4px;
+		border: 1px solid #dcdcdc;
+		border-radius: 4px;
 		margin: 0 auto;
 		box-shadow: 0px 0px 5px rgba(0,0,0,.2);
 		.forgot_list{
