@@ -11,11 +11,12 @@ import Teach from "./views/Teach.vue";
 import Problem from "./views/Problem.vue";
 import Strategy from "./views/Strategy.vue";
 import Detail from "./views/Detail.vue";
+import Person from "./views/Person.vue";
 
 Vue.use(Router);
 
 export default new Router({
-  mode: "history",
+  mode: "hash",
   base: process.env.BASE_URL,
   routes: [
     {
@@ -72,6 +73,11 @@ export default new Router({
       path:"/Detail",
       name:"Detail",
       component:Detail
+    },
+    {
+      path:"/Person",
+      name:"Person",
+      component:Person
     },
   ]
 });

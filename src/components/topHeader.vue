@@ -26,7 +26,7 @@
               <p>您好，zhanghegnxin <span class="el-icon-arrow-down"></span></p>
               <div class="name_list">
                 <div class="div1"> <p class="col-50">可用 <span class="money"> 123456</span></p> <router-link class="son_list col-50 txt-ac" to="/">充值</router-link> </div>
-                <div class="div2"> <router-link class="son_list geren col-50 txt-ac" to="/">个人中心</router-link> <p class="son_list anquan col-50 txt-ac" @click="quit">安全退出</p> </div>
+                <div class="div2"> <router-link class="son_list geren col-50 txt-ac" to="/Person">个人中心</router-link> <p class="son_list anquan col-50 txt-ac" @click="quit">安全退出</p> </div>
               </div>
             </div>
           </transition>
