@@ -48,7 +48,7 @@
     }
   }
 </script>
-<style lang="scss">
+<style lang="scss" >
 #About {
     position: absolute;
     top: 91px;

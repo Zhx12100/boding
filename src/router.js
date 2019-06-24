@@ -10,6 +10,7 @@ import Contact from "./views/Contact.vue";
 import Teach from "./views/Teach.vue";
 import Problem from "./views/Problem.vue";
 import Strategy from "./views/Strategy.vue";
+import Detail from "./views/Detail.vue";
 
 Vue.use(Router);
 
@@ -66,6 +67,11 @@ export default new Router({
       path:"/Strategy",
       name:"Strategy",
       component:Strategy
+    },
+    {
+      path:"/Detail",
+      name:"Detail",
+      component:Detail
     },
   ]
 });
