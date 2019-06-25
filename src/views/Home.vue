@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <!-- 轮播图 -->
-    <div class="swiperBox">
+    <div class="swiperBox" ondragstart="return false">
       <el-carousel>
         <el-carousel-item v-for="(item,index) in swiperArr" :key="index">
           <img :src="item" alt>

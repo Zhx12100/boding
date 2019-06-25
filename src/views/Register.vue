@@ -33,9 +33,6 @@
                       placeholder="请再次输入密码"
                     ></el-input>
                   </el-form-item>
-                  <el-form-item prop="recommend">
-                    <el-input type="text" v-model="ruleRegister.recommend" placeholder="请输入机构推荐码"></el-input>
-                  </el-form-item>
                   <!-- <el-form-item prop="password">
                       <el-input v-model="ruleRegister.password" placeholder="请输入机构推荐码"></el-input>
                   </el-form-item>-->
@@ -103,6 +100,17 @@ import { clearInterval, setTimeout } from 'timers';
 
 export default {
   data(){
+    //验证名字
+    var validateName = (rule, value, callback) => {
+      var reg = /[`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]·~！@#￥%……&*（）——\-+={}|《》？：“”【】、；‘’，。、]/;
+      if (value === '') {
+          callback(new Error('请输入用户名'));
+      } else if (!reg.test(value)) {
+          callback(new Error('名称不得包含特殊字符'));
+      } else {
+          callback();
+      }
+    };
     //验证手机号码
     var validatePhone = (rule, value, callback) => {
       const reg = /^1[3|4|5|7|8][0-9]\d{8}$/;
@@ -129,10 +137,13 @@ export default {
     };
     //验证两支密码
     var validatePass = (rule, value, callback) => {
+      var reg = /[`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]·~！@#￥%……&*（）——\-+={}|《》？：“”【】、；‘’，。、]/;
       if (value === '') {
           callback(new Error('请输入密码'));
       } else if(value.length<6){
           callback(new Error(''));
+      } else if (!reg.test(value)){
+          callback(new Error('密码只能由数字和字母组成！'));
       }else {
         if (this.ruleRegister.checkPassword !== '') {
             this.$refs.ruleRegister.validateField('checkPassword');
@@ -155,8 +166,7 @@ export default {
         name:'',
         password:'',
         checkPassword:'',
-        remark:[],
-        recommend:'',
+        remark:[]
       },
       ruleRegister2:{//注册第一页数据
         phone:'',
@@ -171,7 +181,7 @@ export default {
       rules:{
         name: [
           { required: true, message: '请输入用户名,长度不小于6位', trigger: 'blur' },
-          { min: 6, message: '长度大于等于6位 ', trigger: 'blur' }
+          { min:6,validator:validateName, message: '长度大于等于6位 ', trigger: 'blur' }
         ],
         // password: [
         //   { required: true, message: '请输入密码', trigger: 'blur' },
@@ -187,10 +197,6 @@ export default {
         ],
         remark: [
           { type: 'array', required: true, message: '请勾选', trigger: 'change' }
-        ],
-        recommend: [
-          { required: true, message: '请输入机构推荐码', trigger: 'blur' },
-          { min: 6, message: '长度大于等于6位 ', trigger: 'blur' }
         ]
       },
       rules2:{

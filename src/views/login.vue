@@ -116,6 +116,12 @@ export default {
     // HelloWorld
   },
   mounted(){
+    if(this.$route.query.type){
+      this.$message({
+        message: "请先登录",
+        type: 'warning'
+      });
+    }
   },
   watch:{
 

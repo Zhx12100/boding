@@ -1,6 +1,6 @@
 <template>
   <div id="Strategy">
-    <el-tabs class="container" v-model="activeName" type="border-card">
+    <el-tabs class="container" v-model="activeName" type="border-card" @tab-click="tabSelect">
       <el-tab-pane class="one" label="01 | 交易" name="1">
         <el-row :gutter="20">
           <el-col :span="16">
@@ -18,8 +18,8 @@
                 <transition
                   name="fade"
                   mode="out-in"
-                  enter-active-class="animated fadeInDown"
-                  leave-active-class="animated fadeOutUp"
+                  enter-active-class="animated fadeInUp"
+                  leave-active-class="animated fadeOutDown"
                 >
                   >
                   <div class="association" v-show="searchText!=''">
@@ -179,7 +179,7 @@
                 <div>
                   <div
                     class="pz-day-content"
-                    style="width:100%;height:60px;margin:0px;padding:0px;"
+                    style="width:100%;height:45px;margin:0px;padding:0px;"
                   >
                     <div
                       class="pz-day-public pzdaymoney"
@@ -195,7 +195,7 @@
                         >
                           <span slot="reference" class="el-icon-warning-outline"></span>
                         </el-popover>
-                      </div>
+                      </div>&nbsp;&nbsp;
 
                       <input
                         type="text"
@@ -235,20 +235,20 @@
                     </div>
                   </div>
 
-                  <div class="pz-day-content" style="height: 120px;margin:0px;padding:0px;">
+                  <div class="pz-day-content" style="height: 108px;margin:0px;padding:0px;">
                     <div class="pz-day-public pzdaymoney" style="width: 100%">
                       <span style="font-size: 16px; color: #000; font-weight: bold;">策略倍数:</span>
                       <div class="buy_price">
                         <ul id="buy_price_ul_beishu" style="width: 100%">
-                          <li class="active">5</li>
-                          <li class>6</li>
-                          <li class>7</li>
+                          <li @click="beishu(5)" :class="{active:beishuShow==5}">5</li>
+                          <li @click="beishu(6)" :class="{active:beishuShow==6}">6</li>
+                          <li @click="beishu(7)" :class="{active:beishuShow==7}">7</li>
                         </ul>
                       </div>
                     </div>
                   </div>
 
-                  <div class="buy_price" style="margin-bottom:30px;line-height: 20px;color:#F00;">
+                  <div class="buy_price" style="line-height: 20px;color:#F00;">
                     <div class="open-time">
                       <div class="chose_item mui-col-xs-9 mui-col-sm-9">
                         <span>
@@ -269,7 +269,7 @@
 
                   <div class="pz-day-content1" style="margin:0px;padding:0px;">
                     <div class="delay_tip">
-                      持仓时间：
+                      持仓时间
                       <el-popover
                         placement="top-start"
                         width="200"
@@ -278,7 +278,7 @@
                       >
                         <span slot="reference" class="el-icon-warning-outline"></span>
                       </el-popover>
-                    </div>
+                    </div>&nbsp;&nbsp;
                     <ul class="work-interval">
                       <li class="active">T+1|D</li>
                     </ul>
@@ -294,8 +294,8 @@
                         >
                           <span slot="reference" class="el-icon-warning-outline"></span>
                         </el-popover>
-                      </div>
-                      <strong class="br-bz" id="guaranteemoney"></strong>元
+                      </div>&nbsp;&nbsp;
+                      <span style="font-size: 22px !important;color: #d42b2e;font-style: normal;" class="br-bz" id="guaranteemoney">50000</span>元
                     </div>
 
                     <div class="perf_bond">
@@ -309,15 +309,23 @@
                         >
                           <span slot="reference" class="el-icon-warning-outline"></span>
                         </el-popover>
-                      </div>
-                      <strong class="br-bz" id="cpzijin"></strong>元
+                      </div>&nbsp;&nbsp;
+                      <span style="font-size: 22px !important;color: #d42b2e;font-style: normal;" class="br-bz" id="cpzijin">64555</span>元
                     </div>
 
                     <div class="delay_condition">
-                      <p>
+                      <p style="line-height:45px;">
                         <span>递&emsp;延&emsp;费</span>
                         <span class="fkxy">
                           <em>&nbsp;&nbsp;25</em>元/万/天
+                        </span>
+                      </p>
+                    </div>
+                    <div class="delay_condition">
+                      <p style="line-height:45px;">
+                        <span>建&emsp;仓&emsp;费</span>
+                        <span class="fkxy">
+                          <em>&nbsp;&nbsp;300</em>元
                         </span>
                       </p>
                     </div>
@@ -339,7 +347,7 @@
                     <button id="btn_buy" style="background: rgb(225, 25, 35);">买入</button>
 
                     <!--<button id="btn_buy_d" style="background:#13b908;margin-top:10px;">看空【跌】</button>-->
-                    <p id="su_sm_p" class="total hide">当前可点买总额：210万；单股点买金额不超过：50万。</p>
+                    <!-- <p id="su_sm_p" class="total hide">当前可点买总额：210万；单股点买金额不超过：50万。</p> -->
                   </div>
 
                   <!--  遮罩  -->
@@ -353,8 +361,55 @@
           </el-col>
         </el-row>
       </el-tab-pane>
-      <el-tab-pane class="two" label="02 | 卖出" name="2">
-        <el-row :gutter="20">
+      <el-tab-pane class="three" label="02 | 持仓" name="3">
+        <el-table :data="tableData" style="width: 100%;padding:0 50px;" :show-header='sh'>
+          <el-table-column>
+            <template slot-scope="scope">
+              <span>{{ scope.row.date }}</span>
+              <p style="margin-top:10px;">单号：{{ scope.row.danNum }} 策略号：{{scope.row.ceNum}}</p>
+            </template>
+          </el-table-column>
+          <el-table-column >
+            <template slot-scope="scope">
+              <span>{{ scope.row.money }}元</span>
+                <p style="margin-top:10px;">建仓费：{{scope.row.jmoney}}元</p>
+            </template>
+          </el-table-column>
+          <el-table-column>
+            <template slot-scope="scope">
+              <span style="color:black;font-size:16px;">{{ scope.row.yin }}</span>
+                <p style="margin-top:10px;">{{scope.row.gu}}股可用</p>
+            </template>
+          </el-table-column>
+          <el-table-column>
+            <template slot-scope="scope">
+              <span>35.11->37.96</span>
+                <p style="margin-top:10px;color:red;">3990 (8.12%)</p>
+            </template>
+          </el-table-column>
+          <el-table-column >
+            <template slot-scope="scope">
+              <span style="color:red;">涨</span>
+                
+            </template>
+          </el-table-column>
+          <el-table-column>
+            <template slot-scope="scope">
+              <el-button class="dianmai" size="mini" type="danger" @click="dianmai(scope.$index, scope.row)">点卖</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+        <div class="block" style="text-align: center;margin-top: 30px;">  
+          <el-pagination
+            layout="prev, pager, next"
+            :total="50">
+          </el-pagination>
+        </div>
+        
+      </el-tab-pane>
+      <el-tab-pane class="two" label="03 | 卖出" name="2">
+        <!-- 有数据 -->
+        <el-row :gutter="20" v-show="maichu">
           <el-col :span="16">
             <div class="grid-content bg-purple">
               <!-- 搜索框 -->
@@ -487,65 +542,14 @@
                   <div class="chose_item mui-col-xs-9 mui-col-sm-9">
                     <span>最大可卖：</span>
                     <a class="bz_text" href="javascript:void(0);">
-                      <em id="maxNum">1400</em>
+                      <em id="maxNum" style="font-size:20px;font-weight:bold;">1400</em>
                       <em style="color: black">股</em>
                     </a>
                   </div>
                 </div>
               </div>
 
-              <div class="buy_price">
-                <div class="open-time">
-                  <input type="hidden" value="255" id="orderId">
-                  <p>
-                    <span
-                      class="mui-col-xs-3 mui-col-sm-3"
-                    >股&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;数:</span>
-                    <input class="checkgushu" type="radio" value="1" name="selectNum">
-                    全部
-                    <input
-                      class="checkgushu"
-                      type="radio"
-                      value="0.5"
-                      name="selectNum"
-                    >1/2
-                    <input class="checkgushu" type="radio" value="0.33" name="selectNum">1/3
-                    <input class="checkgushu" type="radio" value="0.25" name="selectNum">1/4
-                    <input class="checkgushu" type="radio" value="0.2" name="selectNum">1/5
-                  </p>
-                </div>
-              </div>
-
-              <div class="buy_price">
-                <div class="open-time">
-                  <p
-                    class="mui-col-xs-3 mui-col-sm-3"
-                    style="margin-bottom: 8px;width: 30%;"
-                  >卖出数量(股)</p>
-                  <div
-                    class="chose_item mui-col-xs-9 mui-col-sm-9"
-                    style="margin-bottom: 0px;width: 60%;    line-height: 25px;"
-                  >
-                    <ul id="stop-loss_ul" style="margin-left: 30%;">
-                      <li
-                        class="bz_a chose_a chose_a_bot mui-col-xs-3 mui-col-sm-3 font12 min"
-                        style="width: 20%;"
-                        href="javascript:void(0);"
-                      >-</li>
-                      <li
-                        class="bz_a chose_a chose_a_bot mui-col-xs-3 mui-col-sm-3 font12"
-                        style="    width: 40%;"
-                        id="buy_num"
-                      >100</li>
-                      <li
-                        class="bz_a chose_a chose_a_bot mui-col-xs-3 mui-col-sm-3 font12 add"
-                        style="width: 20%"
-                        href="javascript:void(0);"
-                      >+</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
+              
 
               <p style="margin-top:20px;" class="pad10 font12">点卖时间段：交易日09:30-11:30 | 13:00-14:58</p>
               <button
@@ -557,46 +561,13 @@
             </div>
           </el-col>
         </el-row>
+        <!-- 无数据 -->
+        <div style="text-align:center;padding-top:100px;" v-show="!maichu">
+          <img src="@/assets/img/noshuju.png" style="width:200px;height:auto" alt="">
+          <p class="" style="font-size:20px;color:#999;">暂无数据</p>
+        </div>
       </el-tab-pane>
-      <el-tab-pane class="three" label="03 | 持仓" name="3">
-        <el-table :data="tableData" style="width: 100%;padding:0 50px;" :show-header='sh'>
-          <el-table-column width="180">
-            <template slot-scope="scope">
-              <span>{{ scope.row.date }}</span>
-              <p style="margin-top:10px;">单号：{{ scope.row.danNum }} 策略号：{{scope.row.ceNum}}</p>
-            </template>
-          </el-table-column>
-          <el-table-column width="180">
-            <template slot-scope="scope">
-              <span>{{ scope.row.money }}元</span>
-                <p style="margin-top:10px;">建仓费：{{scope.row.jmoney}}元</p>
-            </template>
-          </el-table-column>
-          <el-table-column width="180">
-            <template slot-scope="scope">
-              <span style="color:black;font-size:16px;">{{ scope.row.yin }}</span>
-                <p style="margin-top:10px;">{{scope.row.gu}}股可用</p>
-            </template>
-          </el-table-column>
-          <el-table-column width="180">
-            <template slot-scope="scope">
-              <span>35.11->37.96</span>
-                <p style="margin-top:10px;color:red;">3990 (8.12%)</p>
-            </template>
-          </el-table-column>
-          <el-table-column width="100">
-            <template slot-scope="scope">
-              <span style="color:red;">涨</span>
-                
-            </template>
-          </el-table-column>
-          <el-table-column>
-            <template slot-scope="scope">
-              <el-button class="dianmai" size="mini" type="danger" @click="dianmai(scope.$index, scope.row)">点卖</el-button>
-            </template>
-          </el-table-column>
-        </el-table>
-      </el-tab-pane>
+      
       <el-tab-pane class="four" label="04 | 结算" name="4">
         <div class="select" style="padding:0 50px;">
           <span>时间：</span>
@@ -609,35 +580,42 @@
           </el-date-picker>
         </div>
         <el-table :data="tableData" style="width: 100%;padding:0 50px;" :show-header='sh'>
-          <el-table-column width="180">
+          <el-table-column>
             <template slot-scope="scope">
               <span>{{ scope.row.date }}</span>
               <p style="margin-top:10px;">单号：{{ scope.row.danNum }} 策略号：{{scope.row.ceNum}}</p>
             </template>
           </el-table-column>
-          <el-table-column width="180">
+          <el-table-column>
             <template slot-scope="scope">
               <span style="color:black;font-size:16px;">{{ scope.row.yin }}</span>
                 <p style="margin-top:10px;">{{scope.row.gu}}股可用</p>
             </template>
           </el-table-column>
-          <el-table-column width="180">
+          <el-table-column>
             <template slot-scope="scope">
               <span style="color:red;">1162</span>
                 <p style="margin-top:10px;color:red;">交易盈亏</p>
             </template>
           </el-table-column>
-          <el-table-column width="100">
+          <el-table-column>
             <template slot-scope="scope">
               <router-link to="/Detail">查看详情</router-link>          
             </template>
           </el-table-column>
         </el-table>
+        <div class="block" style="text-align: center;margin-top: 30px;">  
+          <el-pagination
+            layout="prev, pager, next"
+            :total="50">
+          </el-pagination>
+        </div>
       </el-tab-pane>
     </el-tabs>
   </div>
 </template>
 <script>
+import { mapState } from "vuex";
 export default {
   data() {
     return {
@@ -645,6 +623,9 @@ export default {
       tabPosition: "left",
       sh:false,//是否显示表头
       month:'',//按日期选择
+      maichu:false,
+      beishuShow:5,
+    
       tableData: [
         {
           date: "2019-06-11 13:41:11",
@@ -689,6 +670,17 @@ export default {
           yin:"招商银行(600036)",
           gu:"5600",
           address: "上海市普陀区金沙江路 1516 弄"
+        },
+        {
+          date: "2019-06-11 13:41:11",
+          danNum:"255",
+          ceNum:"655",
+          money:"24545",
+          jmoney:"6456",
+          name: "王小虎",
+          yin:"招商银行(600036)",
+          gu:"5600",
+          address: "上海市普陀区金沙江路 1516 弄"
         }
       ],
 
@@ -700,13 +692,53 @@ export default {
       console.log(tab, event);
     },
     dianmai(index, row) {
-        console.log(index, row);
-        this.activeName = "2";
+      console.log(index, row);
+      this.activeName = "2";
+      this.maichu = true;
+    },
+    beishu(event){
+      this.beishuShow = event;
+    },
+    tabSelect(tab,event){
+      console.log(tab,event);
+      var name = tab.name;
+      console.log(this.isLogin)
+      if(name=="2"||name=="3"||name=="4"){
+        this.isLogin==false?this.$router.push({name:'Login',query:{type:'noLogin'}}):'';
       }
+    }
+  },
+  computed: {
+    ...mapState({
+      //这里的...不是省略号了,是对象扩展符
+      isLogin: "isLogin"
+    })
+  },
+  mounted(){
+    if(this.$route.query.index){
+      this.activeName = this.$route.query.index;//由详细页面返回定位在结算
+    }
+    
   }
 };
 </script>
 <style lang="scss">
+.el-pagination {
+    white-space: nowrap;
+    padding: 2px 5px;
+    color: #9A9691!important;
+    font-weight: 400!important;
+}
+.el-pagination .btn-next, .el-pagination .btn-prev{
+  color: #9A9691!important;
+}
+.el-pager li.active{
+  color:#409EFF!important;
+  font-weight: bold!important;
+}
+.el-tabs__content{
+  min-height: 500px;
+}
 #Strategy {
   .el-tabs__nav {
     width: 100%;
@@ -750,6 +782,7 @@ export default {
           padding: 2px 14px;
         }
         .association {
+          z-index: 5000;
           width: 567px;
           border: 1px solid #999;
           box-sizing: border-box;
@@ -770,6 +803,7 @@ export default {
           .content {
             .content_list {
               color: #999;
+              background: white;
               &:hover {
                 background: #cacaca;
                 color: white;
@@ -933,7 +967,7 @@ export default {
         .delay_tip {
           position: relative;
           display: inline-block;
-          margin-right: 35px;
+          // margin-right: 35px;
           font: 14px/1.5 "微软雅黑", Arial, YaHei, tahoma, "Hiragino Sans GB",
             宋体;
         }

@@ -6,7 +6,7 @@
           <h1>交易单</h1>
           <span>交易单号:126</span>
         </div>
-        <a href="javascript:history.go(-1)" style="float:right;">返回</a>
+        <a href="javascript:;" @click="goBack" style="float:right;">返回</a>
       </div>
       <div class="detail-info">
         <div class="item">
@@ -83,7 +83,11 @@ export default {
   data() {
     return {};
   },
-  methods: {}
+  methods: {
+    goBack(){
+      this.$router.push({name:"Strategy",query:{index:'4'}})
+    }
+  }
 };
 </script>
 <style lang="scss">
@@ -119,7 +123,7 @@ export default {
       }
     }
     .detail-info {
-        border-top: 2px solid red!important;
+      border-top: 2px solid red!important;
       padding: 29px 29px 0 29px;
       border: 1px solid #e0e0e0;
       border-top: none;

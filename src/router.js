@@ -14,7 +14,10 @@ import Detail from "./views/Detail.vue";
 import Person from "./views/Person.vue";
 
 Vue.use(Router);
-
+// router.beforeEach((to, from, next) => {
+//   //所有需要检测登录状态的路由页面都放在这个数组里面
+//   const nextRoute = [ 'Person', 'Strategy',''];
+// })
 export default new Router({
   mode: "hash",
   base: process.env.BASE_URL,
